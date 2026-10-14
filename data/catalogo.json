@@ -1,0 +1,20 @@
+{
+  "linea": { "id": "c", "nombre": "Línea C" },
+  "ramales": [
+    {
+      "id": "ramal-a-confirmar",
+      "nombre": "Ramal (a confirmar)",
+      "confirmado": false,
+      "sentidos": [
+        { "id": "hacia-centro", "nombre": "Hacia el centro", "archivo": "data/c/ramal-a-confirmar/hacia-centro.txt" },
+        { "id": "hacia-valle", "nombre": "Hacia el Valle", "archivo": "data/c/ramal-a-confirmar/hacia-valle.txt" }
+      ]
+    }
+  ],
+  "avisos": [
+    "Los horarios se copiaron de Moovit y son estimados: la combi puede pasar unos minutos antes o después.",
+    "Los feriados usan el horario de domingo.",
+    "La línea C tiene 3 ramales. Por ahora hay un solo ramal cargado, y todavía no se sabe cuál es.",
+    "Dato dudoso: la última salida del domingo hacia el Valle figura a las 22:15. En Moovit aparecía una fila incompleta a las 22:45."
+  ]
+}

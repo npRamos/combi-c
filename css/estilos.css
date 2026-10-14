@@ -1,0 +1,218 @@
+:root {
+  --fondo: #f3f6f7;
+  --superficie: #ffffff;
+  --texto: #14232a;
+  --suave: #5a6b72;
+  --borde: #d9e2e5;
+  --marca: #0f5c6e;
+  --marca-texto: #ffffff;
+  --acento: #e0f0f3;
+  --resalte: #ffb547;
+  --resalte-texto: #2b1a00;
+  --ida: #9aa8ad;
+  --sombra: 0 1px 2px rgb(0 0 0 / 0.06), 0 2px 8px rgb(0 0 0 / 0.05);
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #0d1518;
+    --superficie: #16232a;
+    --texto: #e7eef0;
+    --suave: #9db0b7;
+    --borde: #26363d;
+    --marca: #5fb8cc;
+    --marca-texto: #06232b;
+    --acento: #1d333b;
+    --resalte: #ffb547;
+    --resalte-texto: #2b1a00;
+    --ida: #5b6b71;
+    --sombra: none;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font: 17px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+a { color: inherit; }
+
+.barra {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 56px;
+  padding: 8px 16px;
+  padding-top: max(8px, env(safe-area-inset-top));
+  background: var(--marca);
+  color: var(--marca-texto);
+}
+.barra__titulo { margin: 0; font-size: 1.2rem; flex: 1; }
+.barra__titulo a { text-decoration: none; }
+.barra__volver {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-left: -8px;
+  font-size: 2rem;
+  line-height: 1;
+  text-decoration: none;
+}
+.barra__volver[hidden] { display: none; }
+.barra__reloj { font-weight: 600; opacity: 0.9; }
+
+.contenido {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px 16px max(32px, env(safe-area-inset-bottom));
+}
+
+.cargando, .vacio { color: var(--suave); text-align: center; padding: 32px 0; }
+
+.tarjeta {
+  display: block;
+  margin: 0 0 16px;
+  padding: 16px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  box-shadow: var(--sombra);
+  text-decoration: none;
+}
+.tarjeta--favorita { border-color: var(--marca); border-width: 2px; }
+.tarjeta--error { text-align: center; }
+.tarjeta__etiqueta { margin: 0; color: var(--suave); font-size: 0.9rem; font-weight: 600; }
+.tarjeta__titulo { margin: 4px 0 8px; font-size: 1.35rem; line-height: 1.2; }
+
+.proxima { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 4px 0; }
+.proxima__hora { font-size: 3rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+.proxima__faltan { font-size: 1.25rem; font-weight: 600; color: var(--marca); }
+.proxima--ahora .proxima__faltan { color: var(--resalte-texto); background: var(--resalte); padding: 0 8px; border-radius: 8px; }
+.proxima__ramal { flex-basis: 100%; color: var(--suave); }
+.proxima--sin { font-size: 1.25rem; color: var(--suave); }
+.siguientes { margin: 4px 0 0; color: var(--suave); }
+
+.hoy { margin: 0 0 12px; color: var(--suave); }
+
+.sentidos { display: grid; gap: 12px; margin-bottom: 20px; }
+.sentido {
+  display: block;
+  padding: 16px;
+  background: var(--marca);
+  color: var(--marca-texto);
+  border-radius: 16px;
+  text-decoration: none;
+}
+.sentido__nombre { display: block; font-size: 1.2rem; font-weight: 700; }
+.sentido__recorrido { display: block; font-size: 0.9rem; opacity: 0.85; }
+
+.enlace-info { display: inline-block; padding: 8px 0; color: var(--suave); }
+
+.titulo-vista { margin: 0 0 4px; font-size: 1.4rem; line-height: 1.2; }
+.subtitulo { margin: 0 0 16px; color: var(--suave); }
+
+.recorrido {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.recorrido li + li { border-top: 1px solid var(--borde); }
+.parada {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "nombre hora" "nombre faltan";
+  align-items: center;
+  column-gap: 12px;
+  min-height: 56px;
+  padding: 10px 16px;
+  text-decoration: none;
+}
+.parada:active { background: var(--acento); }
+.parada__nombre { grid-area: nombre; }
+.parada__estrella { color: var(--resalte); }
+.parada__hora { grid-area: hora; font-size: 1.2rem; font-weight: 700; text-align: right; }
+.parada__faltan { grid-area: faltan; font-size: 0.85rem; color: var(--suave); text-align: right; }
+
+.boton {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin: 0 0 16px;
+  padding: 10px 16px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--marca);
+  background: var(--superficie);
+  border: 2px solid var(--marca);
+  border-radius: 12px;
+  cursor: pointer;
+}
+.boton--favorita.es-favorita { background: var(--marca); color: var(--marca-texto); }
+
+.pestanas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 12px;
+  background: var(--acento);
+  border-radius: 12px;
+}
+.pestana {
+  min-height: 48px;
+  padding: 6px 4px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--texto);
+  background: transparent;
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+}
+.pestana small { display: block; font-weight: 400; color: var(--suave); }
+.pestana[aria-selected="true"] { background: var(--superficie); box-shadow: var(--sombra); color: var(--marca); }
+
+.horario {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.horario__fila { display: flex; align-items: flex-start; gap: 12px; padding: 8px 12px; }
+.horario__fila + .horario__fila { border-top: 1px solid var(--borde); }
+.horario__hora { width: 2ch; padding-top: 6px; font-weight: 800; color: var(--suave); text-align: right; flex: none; }
+.horario__minutos { display: flex; flex-wrap: wrap; gap: 6px; }
+.pasada {
+  min-width: 4.2em;
+  padding: 6px 8px;
+  text-align: center;
+  font-weight: 600;
+  background: var(--acento);
+  border-radius: 8px;
+}
+.pasada small { display: block; font-size: 0.7rem; font-weight: 400; color: var(--suave); }
+.pasada--ida { color: var(--ida); background: transparent; font-weight: 400; }
+.pasada--proxima { background: var(--resalte); color: var(--resalte-texto); outline: 2px solid var(--resalte-texto); }
+
+.texto h3 { margin: 16px 0 4px; font-size: 1.05rem; }
+.texto p, .texto ul { margin: 0 0 8px; }
+.avisos { padding-left: 1.2em; }
+.avisos li + li { margin-top: 6px; }
