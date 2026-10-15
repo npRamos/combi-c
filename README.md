@@ -2,7 +2,7 @@
 
 App web instalable para saber **cuándo pasa la próxima combi de la línea C** por cualquier parada de Ushuaia. Funciona sin conexión una vez abierta, y cada celular guarda su propia parada favorita.
 
-Los horarios son una copia de Moovit y son **estimados**.
+Los horarios son una copia de Moovit y son **estimados**. Las ubicaciones de las paradas son de Mi Bondi (Municipalidad de Ushuaia), y el mapa de fondo es de © colaboradores de OpenStreetMap.
 
 ## Usarla en el celular (Android)
 
@@ -42,13 +42,21 @@ Las líneas que empiezan con `#` son comentarios.
 
 Las paradas se reconocen por su nombre, sin distinguir mayúsculas, tildes ni puntuación. Si dos ramales tienen la misma parada, la app muestra las pasadas de los dos.
 
+**Ubicaciones de las paradas (mapa):** `data/c/ubicaciones.json` se genera con un script a partir de una copia de Mi Bondi (Municipalidad de Ushuaia), que tiene las coordenadas de las paradas de la Línea C pero no sus nombres:
+
+```sh
+node herramientas/emparejar-mibondi.mjs
+```
+
+El script asigna los nombres siguiendo el orden del recorrido. Para controlar el resultado mide si cada punto está sobre la calle que nombra la parada, usando las calles de OpenStreetMap (`herramientas/osm/calles.json`), y escribe `herramientas/informe-emparejamiento.md`. Las correcciones manuales van en `herramientas/correcciones.json`, cada una con su motivo. Si se agregan paradas o cambia un horario, hay que volver a correr el script y revisar el informe.
+
 **Feriados:** `data/feriados.json` hay que actualizarlo una vez por año. Los feriados usan el horario de domingo.
 
 Los cambios en `data/` aparecen en los celulares a más tardar la segunda vez que se abre la app con conexión.
 
 ## Cambios de código
 
-Si modificás algo en `index.html`, `css/`, `js/`, `iconos/` o `manifest.webmanifest`, subí la versión de `VERSION` en `sw.js` para que los celulares descarguen la nueva versión.
+Si modificás algo en `index.html`, `css/`, `js/`, `iconos/`, `vendor/` o `manifest.webmanifest`, subí la versión de `VERSION` en `sw.js` para que los celulares descarguen la nueva versión.
 
 ## Probar localmente
 

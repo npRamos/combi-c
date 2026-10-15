@@ -27,7 +27,7 @@ function fusionarOrden(orden, secuencia) {
  * @returns {{ linea, ramales, variosRamales, avisos, sentidos: Sentido[] }}
  *   Sentido = { id, nombre, paradas: [{ clave, nombre }], pasadas: { [tipo]: Map<clave, [{ minuto, ramal }]> } }
  */
-export function construirModelo(catalogo, textos, { avisar = console.warn } = {}) {
+export function construirModelo(catalogo, textos, { avisar = console.warn, ubicaciones = null } = {}) {
   const sentidos = new Map();
 
   for (const ramal of catalogo.ramales) {
@@ -81,18 +81,38 @@ export function construirModelo(catalogo, textos, { avisar = console.warn } = {}
     }
   }
 
+  // Ubicaciones: "sentido|clave" → { lat, lon }.
+  const ubicadas = new Map();
+  for (const entrada of ubicaciones?.paradas ?? []) {
+    const clave = normalizar(entrada.parada);
+    if (!sentidos.get(entrada.sentido)?.nombres.has(clave)) {
+      avisar(`Ubicación sin parada en los horarios: ${entrada.sentido} · ${entrada.parada}`);
+      continue;
+    }
+    ubicadas.set(`${entrada.sentido}|${clave}`, { lat: entrada.lat, lon: entrada.lon });
+  }
+
   return {
     linea: catalogo.linea,
     ramales: catalogo.ramales.map(({ id, nombre, confirmado }) => ({ id, nombre, confirmado })),
     variosRamales: catalogo.ramales.length > 1,
     avisos: catalogo.avisos ?? [],
+    recorrido: ubicaciones?.recorrido ?? [],
+    fuenteUbicaciones: ubicaciones?.fuente ?? null,
     sentidos: [...sentidos.values()].map(({ id, nombre, orden, nombres, pasadas }) => ({
       id,
       nombre,
-      paradas: orden.map((clave) => ({ clave, nombre: nombres.get(clave) })),
+      paradas: orden.map((clave) => ({ clave, nombre: nombres.get(clave), ubicacion: ubicadas.get(`${id}|${clave}`) ?? null })),
       pasadas,
     })),
   };
+}
+
+/** Todas las paradas con ubicación, de todos los sentidos: [{ sentido, parada }]. */
+export function paradasUbicadas(modelo) {
+  return modelo.sentidos.flatMap((sentido) =>
+    sentido.paradas.filter((parada) => parada.ubicacion).map((parada) => ({ sentido, parada })),
+  );
 }
 
 export function buscarSentido(modelo, id) {

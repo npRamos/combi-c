@@ -1,7 +1,7 @@
 // Service worker: la app funciona sin conexión después de la primera visita.
 // Subí VERSION cada vez que cambie algo de la interfaz (HTML, CSS, JS, íconos, manifiesto).
 
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE_INTERFAZ = `combi-interfaz-${VERSION}`;
 const CACHE_DATOS = 'combi-datos';
 
@@ -11,8 +11,11 @@ const INTERFAZ = [
   'manifest.webmanifest',
   'css/estilos.css',
   'js/app.js',
+  'js/busqueda.js',
   'js/consulta.js',
   'js/favorita.js',
+  'js/geo.js',
+  'js/mapa.js',
   'js/modelo.js',
   'js/parser.js',
   'js/tiempo.js',
@@ -20,14 +23,22 @@ const INTERFAZ = [
   'iconos/icono-192.png',
   'iconos/icono-512.png',
   'iconos/icono-maskable-512.png',
+  'vendor/leaflet/leaflet.js',
+  'vendor/leaflet/leaflet.css',
+  'vendor/leaflet/images/layers.png',
+  'vendor/leaflet/images/layers-2x.png',
+  'vendor/leaflet/images/marker-icon.png',
+  'vendor/leaflet/images/marker-icon-2x.png',
+  'vendor/leaflet/images/marker-shadow.png',
 ];
 
 async function precargarDatos() {
   const cache = await caches.open(CACHE_DATOS);
   const catalogo = await fetch('data/catalogo.json', { cache: 'no-cache' });
   await cache.put('data/catalogo.json', catalogo.clone());
-  const { ramales } = await catalogo.json();
+  const { linea, ramales } = await catalogo.json();
   const archivos = ramales.flatMap((ramal) => ramal.sentidos.map((sentido) => sentido.archivo));
+  if (linea.ubicaciones) archivos.push(linea.ubicaciones);
   await cache.addAll(['data/feriados.json', ...archivos]);
 }
 

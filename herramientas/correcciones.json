@@ -1,0 +1,17 @@
+{
+  "obtenido": "2026-10-15",
+  "calles": {},
+  "asignaciones": {
+    "hacia-centro|Calle Loncharich Y Calle Antiguos Leñadores": "126/126",
+    "hacia-centro|Chacra Los Barreto, 42": "122/122",
+    "hacia-centro|Av. Malvinas Argentinas Y Calle 12 De Octubre": "210/210",
+    "hacia-valle|Av. Prefectura Naval Argentina Y Av. L. Pedro Fique (Monumento Malvinas)": "208/208",
+    "hacia-valle|Av. Prefectura Naval Argentina Y Calle Piedrabuena": "206/206",
+    "hacia-valle|Avenida Maipú, 628": null
+  },
+  "motivos": {
+    "Punta del Valle": "Los puntos de Mi Bondi están de a pares enfrentados (127↔125, 126↔124, 122↔123). Chacra Los Barreto 23 y 42 tienen que quedar frente a su par del otro sentido; #126 (a 15 m de Loncharich) es Loncharich y #118 es el par de Cirilo Boscovich, que en Moovit solo existe en la vuelta.",
+    "Terminal 12 de Octubre": "#210 está a 2 m de 12 de Octubre: es la terminal de los dos sentidos. En OSM la avenida ahí se llama Maipú/Malvinas Argentinas, no Prefectura.",
+    "Costanera hacia el Valle": "#208 está a 84 m de Fique (Monumento Malvinas) y #206 a 13 m de Piedrabuena; Maipú 628 no tiene punto propio en Mi Bondi."
+  }
+}

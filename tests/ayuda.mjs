@@ -13,7 +13,8 @@ export function modeloReal() {
   for (const ramal of catalogo.ramales) {
     for (const sentido of ramal.sentidos) textos.set(sentido.archivo, leer(sentido.archivo));
   }
-  return construirModelo(catalogo, textos, { avisar: () => {} });
+  const ubicaciones = catalogo.linea.ubicaciones ? JSON.parse(leer(catalogo.linea.ubicaciones)) : null;
+  return construirModelo(catalogo, textos, { avisar: () => {}, ubicaciones });
 }
 
 export const feriadosReales = () => conjuntoDeFeriados(JSON.parse(leer('data/feriados.json')));

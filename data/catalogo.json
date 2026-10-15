@@ -1,5 +1,9 @@
 {
-  "linea": { "id": "c", "nombre": "Línea C" },
+  "linea": {
+    "id": "c",
+    "nombre": "Línea C",
+    "ubicaciones": "data/c/ubicaciones.json"
+  },
   "ramales": [
     {
       "id": "ramal-a-confirmar",
